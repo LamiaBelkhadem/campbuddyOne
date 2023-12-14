@@ -1,38 +1,31 @@
 import express from "express";
-import {addFavorite, deleteUser, getAllUser, getUser, removeFavorite, updateUser} from "../controllers/user.js";
-import {verifyAdmin, verifyToken, verifyUser} from "../utils/verifyToken.js";
-const router= express.Router();
+import { user } from "../controllers/user.js";
+import { isAdmin } from "../middlewares/isAdmin.js";
+import { isAuthenticated } from "../middlewares/isAuthenticated.js";
+const router = express.Router();
 
+router.get("/checkauthentication", isAuthenticated, (req, res, next) => {
+  res.send("Hello user, you are logged in");
+});
 
-router.get("/checkauthentication",verifyToken,(req,res,next)=>{
-    res.send("Hello user, you are logged in");
-})
+router.get("/checkuser/", isAuthenticated, (req, res, next) => {
+  res.send("Hello user, you are authenticated and can delete your account");
+});
 
-router.get("/checkuser/",verifyUser,(req,res,next)=>{
-    res.send("Hello user, you are authenticated and can delete your account");
-})
+router.get("/checkadmin/:id", isAdmin, (req, res, next) => {
+  res.send("Hello admin, you are authenticated and can delete your account");
+});
 
-router.get("/checkadmin/:id",verifyAdmin,(req,res,next)=>{
-    res.send("Hello admin, you are authenticated and can delete your account");
-})
+router.put("/:id", user.update);
 
-//UPDATE
-router.put("/:id", updateUser);
+// TODO delete my own account
+// router.delete("/", isUser, deleteAccount);
 
-//DELETE
-router.delete("/:id", verifyUser, deleteUser);
+router.delete("/:", isAdmin, user.remove);
+router.get("/", isAdmin, user.getOne);
 
+router.post("/favorites", user.addFavorite);
+router.delete("/favorites/:id", user.remove);
+router.get("/", isAdmin, user.getAll);
 
-//GET
-router.get("/", getUser);
-
-//ADD FAVORITES
-router.put("/addFavourites/:id", addFavorite);
-
-//REMOVE FAVORITES
-router.put("/removeFavourites/:id", removeFavorite);
-
-
-//GET ALL
-router.get("/", getAllUser);
-export default router
+export default router;

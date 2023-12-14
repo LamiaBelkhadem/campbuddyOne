@@ -1,37 +1,23 @@
 import express from "express";
-import Review from "../models/reviews.js"
-import {
-    createReview,
-    deleteReview,
-    getAllReview,
-    getReview, getReviewsByIds, getUserReviews,
-    updateReview
-} from "../controllers/reviews.js";
-import {verifyUser} from "../utils/verifyToken.js";
+import { review } from "../controllers/reviews.js";
+import { isAuthenticated } from "../middlewares/isAuthenticated.js";
 
-const router= express.Router();
-
+const router = express.Router();
 
 //CREATE
-router.post("/",  createReview);
+router.post("/", review.create);
 
 //UPDATE
-router.put("/:id",  updateReview);
+router.put("/:id", review.update);
 
 //DELETE
-router.delete("/:id",verifyUser,deleteReview);
-
+router.delete("/:id", review.remove);
 
 //GET
-router.get("/:id", getReview);
+router.get("/:id", review.getOne);
 
-//GET CAMPSITE REVIEWS
-router.get("/campsite/:id", getUserReviews);
+router.get("/review/campsite/:id", review.viewUserReview);
+router.get("/reviews/id", review.getByIds);
+router.get("/", review.getAll);
 
-//GET REVIEWS BY ARRAY OF IDs
-router.get('/reviewsByIds', getReviewsByIds);
-
-
-//GET ALL
-router.get("/", getAllReview);
-export default router
+export default router;

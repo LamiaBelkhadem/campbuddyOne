@@ -1,34 +1,21 @@
 import express from "express";
-const router= express.Router();
-import {
-    createCampsite,
-    updateCampsite,
-    deleteCampsite,
-    getAllCampsite,
-    getCampsite,
-    addReview
-} from "../controllers/campsite.js";
-import {verifyAdmin, verifyUser} from "../utils/verifyToken.js";
+import { campsite } from "../controllers/campsite.js";
+import { isAdmin } from "../middlewares/isAdmin.js";
 
-
+const router = express.Router();
 
 //CREATE
-router.post("/", verifyAdmin, createCampsite);
+router.post("/", isAdmin, campsite.create);
 
 //UPDATE
-router.put("/:id",  updateCampsite);
+router.put("/:id", isAdmin, campsite.update);
 
 //ADD REVIEW
-router.put("/addReview/:id", addReview);
+router.put("/campsite/review/:id", campsite.addReview);
 
-//DELETE
-router.delete("/:id",verifyAdmin,deleteCampsite);
+router.delete("/:id", isAdmin, campsite.remove);
 
+router.get("/:id", campsite.getOne);
+router.get("/", campsite.getAll);
 
-//GET
-router.get("/:id", getCampsite);
-
-
-//GET ALL
-router.get("/", getAllCampsite);
-export default router
+export default router;

@@ -1,10 +1,12 @@
 import express from "express";
-import {register, login, verifyEmail} from "../controllers/auth.js"
+import { auth } from "../controllers/auth.js";
+import { isAuthenticated } from "../middlewares/isAuthenticated.js";
 
-const router=express.Router();
+const router = express.Router();
 
-router.post("/register",register)
-router.post("/login",login)
-router.get('/verify/:token', verifyEmail);
+router.post("/register", auth.register);
+router.post("/login", auth.login);
+router.get("/verify/:token", auth.verifyEmail);
+router.get("/me", isAuthenticated, auth.me);
 
-export default router
+export default router;

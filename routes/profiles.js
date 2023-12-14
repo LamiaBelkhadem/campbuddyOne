@@ -1,20 +1,20 @@
 import express from "express";
-import {createProfile, deleteProfile, getAllProfile, getProfile, updateProfile} from "../controllers/profile.js";
-import {verifyAdmin,verifyUser} from "../utils/verifyToken.js";
-const router=express.Router();
+import { profile } from "../controllers/profile.js";
+import { isAdmin } from "../middlewares/isAdmin.js";
+const router = express.Router();
 
 //CREATE
-router.post("/:userId", createProfile)
+router.post("/:userId", profile.create);
 
-//UPDATE
-router.put("/:id", verifyUser, updateProfile);
+router.put("/:id", profile.update);
 
 //DELETE
-router.delete("/:id/:userId", verifyAdmin, deleteProfile);
+router.delete("/:id/:userId", isAdmin, profile.remove);
 
 //GET
-router.get("/:id",verifyUser, getProfile);
+router.get("/:id",  profile.getOne);
 
 //GET ALL
-router.get("/", verifyUser, getAllProfile);
-export default router
+router.get("/", isAdmin, profile.getAll);
+
+export default router;

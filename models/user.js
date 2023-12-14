@@ -98,4 +98,5 @@ const UsersSchema = new mongoose.Schema({
     },
     {timestamps: true}
 );
+
 export default mongoose.model("User", UsersSchema);

@@ -1,25 +1,14 @@
 import express from "express";
-import Lobby from "../models/lobbies.js"
-import {createLobby, deleteLobby, getAllLobby, getLobby, updateLobby} from "../controllers/lobby.js";
-import {verifyUser} from "../utils/verifyToken.js";
+import { lobby } from "../controllers/lobby.js";
+import { isAuthenticated } from "../middlewares/isAuthenticated.js";
 
-const router= express.Router();
+const router = express.Router();
+router.post("/", isAuthenticated, lobby.create);
 
+router.put("/:id", isAuthenticated, lobby.update);
+router.delete("/:id", isAuthenticated, lobby.remove);
 
-//CREATE
-router.post("/",  createLobby);
+router.get("/:id", isAuthenticated, lobby.get);
+router.get("/", isAuthenticated, lobby.getAll);
 
-//UPDATE
-router.put("/:id", verifyUser, updateLobby);
-
-//DELETE
-router.delete("/:id",verifyUser,deleteLobby);
-
-
-//GET
-router.get("/:id", getLobby);
-
-
-//GET ALL
-router.get("/", getAllLobby);
-export default router
+export default router;
