@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
-import multer from "multer";
 import path from "path";
 import {fileURLToPath} from "url";
 import {isAuthenticated} from "./middlewares/index.js";
