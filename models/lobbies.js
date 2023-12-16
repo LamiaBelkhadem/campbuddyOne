@@ -74,6 +74,18 @@ const LobbiesSchema = new mongoose.Schema({
         default: [],
     },
 
+    owner:{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    },
+
+    joined: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }]
+
+}, {timestamps: true
+
 
 })
 export default mongoose.model("Lobby", LobbiesSchema)

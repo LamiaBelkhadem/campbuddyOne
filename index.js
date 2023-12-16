@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 import multer from "multer";
 import path from "path";
 import {fileURLToPath} from "url";
-import {isAuthenticated} from "./middlewares/isAuthenticated.js";
+import {isAuthenticated} from "./middlewares/index.js";
 import authRoute from "./routes/auth.js";
 import campsitesRoute from "./routes/campsites.js";
 import lobbiesRoute from "./routes/lobbies.js";
@@ -52,15 +52,15 @@ app.use("/api/lobbies", isAuthenticated, lobbiesRoute);
 app.use("/api/campsites", isAuthenticated, campsitesRoute);
 app.use("/api/profiles", isAuthenticated, profileRoute);
 app.use("/api/reviews", isAuthenticated, reviewsRoute);
-    app.use((err, _, res, __) => {
-        const errorStatus = err.status || 500;
-        const errorMessage = err.message || "Something went wrong!";
-        return res.status(errorStatus).json({
-            success: false,
-            status: errorStatus,
-            message: errorMessage,
-        });
+app.use((err, _, res, __) => {
+    const errorStatus = err.status || 500;
+    const errorMessage = err.message || "Something went wrong!";
+    return res.status(errorStatus).json({
+        success: false,
+        status: errorStatus,
+        message: errorMessage,
     });
+});
 
 app.listen(8080, async () => {
     await connect();

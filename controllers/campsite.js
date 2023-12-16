@@ -13,11 +13,7 @@ const create = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const updatedCampsite = await Campsite.findByIdAndUpdate(
-            req.params.id,
-            {$set: req.body},
-            {new: true}
-        );
+        const updatedCampsite = await Campsite.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true});
         res.status(200).json(updatedCampsite);
     } catch (err) {
         next(err);
@@ -34,11 +30,7 @@ const getOne = async (req, res) => {
 };
 const addReview = async (req, res, next) => {
     try {
-        const updatedCampsite = await Campsite.findByIdAndUpdate(
-            req.params.id,
-            {$push: {reviews: req.body.reviews}},
-            {new: true}
-        );
+        const updatedCampsite = await Campsite.findByIdAndUpdate(req.params.id, {$push: {reviews: req.body.reviews}}, {new: true});
         return res.status(200).json(updatedCampsite);
     } catch (err) {
         console.error("Error updating Campsite:", err);
@@ -57,18 +49,13 @@ const remove = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
     try {
-        const campsite = await Campsite.find();
-        return res.status(200).json(campsite);
+        const campsites = await Campsite.find();
+        return res.status(200).json({campsites});
     } catch (err) {
         next(err);
     }
 };
 
 export const campsite = {
-    create,
-    update,
-    getOne,
-    addReview,
-    remove,
-    getAll,
+    create, update, getOne, addReview, remove, getAll,
 };
