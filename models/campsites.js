@@ -1,15 +1,16 @@
 import mongoose from "mongoose";
 
-const campsiteSchema = new mongoose.Schema({
+const campsiteSchema = new mongoose.Schema(
+    {
         name: {
             type: String,
             required: true,
-            unique: true
+            unique: true,
         },
         location: {
             type: String,
             required: true,
-            unique: true
+            unique: true,
         },
         category: {
             type: String,
@@ -17,7 +18,7 @@ const campsiteSchema = new mongoose.Schema({
         },
         security: {
             type: Boolean,
-            default: false
+            default: false,
         },
 
         mainImg: {
@@ -38,14 +39,13 @@ const campsiteSchema = new mongoose.Schema({
             default: "",
         },
         reviews: {
-            type:Array,
-            default:[],
+            type: Array,
+            default: [],
         },
         rating: {
-            type:String,
-            default:"N/A",
+            type: String,
+            default: "N/A",
         },
-
     },
     {timestamps: true}
 );

@@ -11,7 +11,7 @@ router.post("/", isAdmin, campsite.create);
 router.put("/:id", isAdmin, campsite.update);
 
 //ADD REVIEW
-router.put("/campsite/review/:id", campsite.addReview);
+router.put("/review/:id", campsite.addReview);
 
 router.delete("/:id", isAdmin, campsite.remove);
 

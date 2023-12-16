@@ -1,7 +1,6 @@
-import mongoose  from "mongoose";
-const { schema } =mongoose;
+import mongoose from "mongoose";
 
-const ReviewsSchema =new mongoose.Schema({
+const ReviewsSchema = new mongoose.Schema({
     userId: {
         type: String,
         required: true
@@ -23,4 +22,4 @@ const ReviewsSchema =new mongoose.Schema({
     }
 
 });
-export default  mongoose.model("Review", ReviewsSchema)
+export default mongoose.model("Review", ReviewsSchema)

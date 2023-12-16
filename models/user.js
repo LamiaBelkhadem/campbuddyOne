@@ -1,15 +1,16 @@
 import mongoose from "mongoose";
 
-const UsersSchema = new mongoose.Schema({
+const UsersSchema = new mongoose.Schema(
+    {
         username: {
             type: String,
             required: true,
-            unique: true
+            unique: true,
         },
         email: {
             type: String,
             required: true,
-            unique: true
+            unique: true,
         },
         password: {
             type: String,
@@ -17,13 +18,12 @@ const UsersSchema = new mongoose.Schema({
         },
         isAdmin: {
             type: Boolean,
-            default: false
+            default: false,
         },
         lobbies: {
             type: Array,
             default: [],
         },
-
         fname: {
             type: String,
         },
@@ -32,69 +32,24 @@ const UsersSchema = new mongoose.Schema({
         },
         age: {
             type: Number,
-            default:"",
-
-        },
-        experience: {
-            type: String,
-            default:"",
-        },
-        area: {
-            type: String,
-            default:"",
-        },
-        profilepic: {
-            type: String,
             default: "",
-        },
-        interests: {
-            type: String,
-            default: "",
-
-        },
-        equipment: {
-            type: String,
-            default: "",
-
-        },
-        favorites: {
-            type: Array,
-            default: [],
-
-        },
-        facebook: {
-            type: String,
-        },
-        instagram: {
-            type: String,
-        },
-        tiktok: {
-            type: String,
-        },
-        twitter: {
-            type: String,
         },
         profile: {
-            type: Boolean,
-            default:false,
-        },
-        desc: {
-            type:String,
-            default:"",
-        },
-        bio: {
-            type:String,
-            default:"",
+            type: mongoose.Types.ObjectId,
+            ref: 'Profile'
         },
         reviews: {
-            type:Array,
-            default:[],
+            type: Array,
+            default: [],
         },
         emailVerified: {
             type: Boolean,
             default: false,
         },
-        emailVerificationToken: String,
+        emailVerificationToken: {
+            type: String,
+            default: "",
+        },
     },
     {timestamps: true}
 );

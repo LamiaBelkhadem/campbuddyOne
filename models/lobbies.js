@@ -1,22 +1,21 @@
-import mongoose  from "mongoose";
-const { schema } =mongoose;
+import mongoose from "mongoose";
 
-const LobbiesSchema =new mongoose.Schema({
-    name:{
-        type:String,
-        required:true
+const LobbiesSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
     },
-    start:{
-        type:String,
-        required:true
+    start: {
+        type: String,
+        required: true
     },
-    end:{
-        type:String,
-        required:true
+    end: {
+        type: String,
+        required: true
     },
-    time:{
-        type:String,
-        required:true
+    time: {
+        type: String,
+        required: true
     },
     campsite: {
         type: String,
@@ -28,55 +27,53 @@ const LobbiesSchema =new mongoose.Schema({
     },
     participants: {
         type: Array,
-        default:[],
+        default: [],
     },
-    open:{
-        type:Boolean,
-        default:true,
+    open: {
+        type: Boolean,
+        default: true,
     },
-    age:{
-        type:String,
-        default:'',
+    age: {
+        type: String,
+        default: '',
     },
-    experience:{
-        type:String,
-        default:'',
+    experience: {
+        type: String,
+        default: '',
     },
-    gender:{
-        type:String,
-        default:'',
+    gender: {
+        type: String,
+        default: '',
     },
-    kids:{
-        type:Boolean,
-        default:true,
+    kids: {
+        type: Boolean,
+        default: true,
     },
-    pets:{
-        type:Boolean,
-        default:true,
+    pets: {
+        type: Boolean,
+        default: true,
     },
-    ambiance:{
-        type:String,
-        default:'',
+    ambiance: {
+        type: String,
+        default: '',
     },
-    food:{
-        type:Boolean,
-        default:true,
+    food: {
+        type: Boolean,
+        default: true,
     },
-    transport:{
-        type:Boolean,
-        default:true,
+    transport: {
+        type: Boolean,
+        default: true,
     },
     equipmentProvided: {
         type: Array,
-        default:[],
+        default: [],
     },
     equipmentNeeded: {
         type: Array,
-        default:[],
+        default: [],
     },
 
 
-
-
 })
-export default  mongoose.model("Lobby", LobbiesSchema)
+export default mongoose.model("Lobby", LobbiesSchema)

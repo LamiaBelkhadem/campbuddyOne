@@ -1,3 +1,1 @@
-export const errorMessage = (msgString) => {
-  return { error: { message: msgString } };
-};
+export const errorMessage = (msgString) => ({ error: { message: msgString } });

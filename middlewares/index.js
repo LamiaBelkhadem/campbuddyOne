@@ -1,2 +1,2 @@
-export * from "./isAdmin"
-export * from "./isAuthenticated"
+export * from "./isAdmin.js"
+export * from "./isAuthenticated.js"

@@ -1,32 +1,54 @@
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
 
-const profileSchema =new mongoose.Schema({
-        fname: {
+const profileSchema = new mongoose.Schema(
+    {
+        gender: {
             type: String,
-            required: true,
+            default: "Not specified"
+        },
+        fname: {
+            type: String, required: true,
         },
         lname: {
+            type: String, required: true,
+        }, age: {
+            type: Number, required: true,
+        }, experience: {
             type: String,
-            required: true,},
-        age: {
-            type: Number,
-            required: true,
-        },
-        experience: {
-                type: Number,
-            min:0,
-            max:5,
         },
         area: {
             type: String,
         },
-        profilepic: {
-            type: String,
-            default:"",
+        profilePic: {
+            type: String, default: "",
         },
+        interests: {
+            type: String, default: "",
+        },
+        equipment: {
+            type: String, default: "",
+        },
+        favorites: {
+            type: Array, default: [],
+        },
+        facebook: {
+            type: String,
+        }, instagram: {
+            type: String,
+        }, tiktok: {
+            type: String,
+        }, twitter: {
+            type: String,
+        },
+        desc: {
+            type: String, default: "",
+        }, bio: {
+            type: String, default: "",
+        },
+        user: {
+            type: mongoose.Types.ObjectId,
+            ref: "User",
+        }
     },
-
-
-    {timestamps: true}
-);
-export default  mongoose.model("Profile", profileSchema);
+    {timestamps: true});
+export default mongoose.model("Profile", profileSchema);

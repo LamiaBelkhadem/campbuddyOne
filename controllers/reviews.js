@@ -23,7 +23,7 @@ const update = async (req, res, next) => {
   }
 };
 
-const getOne = async (req, res, next) => {
+const getOne = async (req, res) => {
   try {
     const review = await Review.findByIdAndUpdate(req.params.id);
     res.status(200).json(review);
@@ -32,7 +32,7 @@ const getOne = async (req, res, next) => {
   }
 };
 
-const viewUserReview = async (req, res, next) => {
+const viewUserReview = async (req, res) => {
   try {
     // Assuming `userId` is the field in the Review model that you want to match
     const userReviews = await Review.find({ userId: req.params.id });
@@ -63,7 +63,7 @@ const remove = async (req, res, next) => {
   }
 };
 
-const getAll = async (req, res, next) => {
+const getAll = async (_, res, next) => {
   try {
     const review = await Review.find();
     res.status(200).json(review);

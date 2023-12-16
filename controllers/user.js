@@ -1,88 +1,73 @@
 import User from "../models/user.js";
+import {errorMessage} from "../utils/index.js";
+import {messageResponse} from "../utils/messageResponse.js";
 
-const update = async (req, res, next) => {
-  try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true }
-    );
-    res.status(200).json(updatedUser);
-    console.log("Incoming data:", req.body);
-  } catch (err) {
-    next(err);
-  }
-};
-
-const getOne = async (req, res, next) => {
-  const userId = req.params.userId;
-  const username = req.query.username;
-  try {
-    const user = userId
-      ? await User.findById(userId)
-      : await User.findOne({ username: username });
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+const getOne = async (req, res) => {
+    const {id} = req.params.id;
+    try {
+        const user = await User.findById(id);
+        if (!user)
+            return res.status(200).json(errorMessage("profile not found"))
+        return res.status(200).json({user});
+    } catch (err) {
+        return res.status(500).json(errorMessage({}));
+    }
 };
 
 const remove = async (req, res, next) => {
-  try {
-    await User.findByIdAndDelete(req.params.id);
-    res.status(200).json("User has been deleted");
-  } catch (err) {
-    next(err);
-  }
+    const {id} = req.params;
+    try {
+        await User.findByIdAndDelete(id);
+        return res.status(200).json(messageResponse("User has been deleted"));
+    } catch (err) {
+        next(err);
+    }
 };
 
 const getAll = async (req, res, next) => {
-  try {
-    const user = await User.find();
-    res.status(200).json(user);
-  } catch (err) {
-    next(err);
-  }
+    try {
+        const user = await User.find();
+        return res.status(200).json(user);
+    } catch (err) {
+        next(err);
+    }
 };
 
 const addFavorite = async (req, res, next) => {
-  try {
-    // Assuming req.body contains something like { favorite: "campsiteId" }
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      { $push: { favorites: req.body.favorites } },
-      { new: true }
-    );
-    res.status(200).json(updatedUser);
-    console.log("Favorite added:", req.body.favorites);
-  } catch (err) {
-    console.error("Error updating user:", err);
-    next(err);
-  }
+    const {id} = req.params;
+    try {
+        // Assuming req.body contains something like { favorite: "campsiteId" }
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            {$push: {favorites: req.body.favorites}},
+            {new: true}
+        );
+        return res.status(200).json({user: updatedUser});
+    } catch (err) {
+        next(err);
+    }
 };
 
 // To remove a favorite
 const removeFavorite = async (req, res, next) => {
-  try {
-    // Assuming req.body contains something like { favorite: "campsiteId" }
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      { $pull: { favorites: req.body.favorite } },
-      { new: true }
-    );
-    res.status(200).json(updatedUser);
-    console.log("Favorite removed:", req.body.favorite);
-  } catch (err) {
-    console.error("Error updating user:", err);
-    next(err);
-  }
+    const {favorite} = req.body;
+    try {
+        // Assuming req.body contains something like { favorite: "campsiteId" }
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            {$pull: {favorites: favorite}},
+            {new: true}
+        );
+        return res.status(200).json({user: updatedUser});
+    } catch (err) {
+        next(err);
+    }
 };
 
 export const user = {
-  addFavorite,
-  removeFavorite,
-  getOne,
-  remove,
-  update,
-  getAll,
+    addFavorite,
+    removeFavorite,
+    getOne,
+    remove,
+    getAll,
 };

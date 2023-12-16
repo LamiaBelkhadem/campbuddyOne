@@ -1,20 +1,26 @@
 import express from "express";
-import { profile } from "../controllers/profile.js";
-import { isAdmin } from "../middlewares/isAdmin.js";
+import path from "node:path";
+import {profile} from "../controllers/profile.js";
+import {isAdmin} from "../middlewares/isAdmin.js";
+import multer from "multer";
+
 const router = express.Router();
 
-//CREATE
-router.post("/:userId", profile.create);
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, `public/images/users/${req.user.id}`);
+    },
+    filename: (req, file, cb) => {
+        cb(null, "profile-pic.png");
+    },
+});
 
-router.put("/:id", profile.update);
+const upload = multer({storage});
 
-//DELETE
+router.post("/", upload.single("file"), profile.upsertProfile);
+router.get("/my-profile",profile.myProfile)
 router.delete("/:id/:userId", isAdmin, profile.remove);
-
-//GET
-router.get("/:id",  profile.getOne);
-
-//GET ALL
+router.get("/:id", profile.getOne);
 router.get("/", isAdmin, profile.getAll);
 
 export default router;

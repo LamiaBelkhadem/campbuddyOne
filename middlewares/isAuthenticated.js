@@ -1,3 +1,6 @@
+import jwt from "jsonwebtoken";
+import { errorMessage } from "../utils/index.js";
+
 export const isAuthenticated = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader)
@@ -7,6 +10,7 @@ export const isAuthenticated = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) return res.status(403).json(errorMessage("Token expired!"));
+
     req.user = user;
     next();
   });
