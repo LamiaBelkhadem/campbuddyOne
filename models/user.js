@@ -38,10 +38,10 @@ const UsersSchema = new mongoose.Schema(
             type: mongoose.Types.ObjectId,
             ref: 'Profile'
         },
-        reviews: {
-            type: Array,
-            default: [],
-        },
+        reviews:[{
+            type: mongoose.Types.ObjectId,
+            ref: 'Review'
+        }],
         emailVerified: {
             type: Boolean,
             default: false,

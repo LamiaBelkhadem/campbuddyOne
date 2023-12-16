@@ -1,4 +1,4 @@
-import Campsite from "../models/campsites.js";
+import Campsite from "../models/campsite.js";
 import {messageResponse} from "../utils/messageResponse.js";
 
 const create = async (req, res, next) => {

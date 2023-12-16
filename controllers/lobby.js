@@ -1,4 +1,4 @@
-import Lobby from "../models/lobbies.js";
+import Lobby from "../models/lobby.js";
 import {messageResponse} from "../utils/messageResponse.js";
 
 const create = async (req, res, next) => {
