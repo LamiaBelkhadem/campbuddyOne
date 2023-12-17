@@ -1,52 +1,62 @@
 import mongoose from "mongoose";
 
-const campsiteSchema = new mongoose.Schema(
-    {
-        name: {
-            type: String,
-            required: true,
-            unique: true,
-        },
-        location: {
-            type: String,
-            required: true,
-            unique: true,
-        },
-        category: {
-            type: String,
-            required: true,
-        },
-        security: {
-            type: Boolean,
-            default: false,
-        },
-
-        mainImg: {
-            type: String,
-            default: "",
-        },
-
-        desc: {
-            type: String,
-            default: "",
-        },
-        images: {
-            type: Array,
-            default: [],
-        },
-        amenities: {
-            type: String,
-            default: "",
-        },
-        reviews: {
-            type: Array,
-            default: [],
-        },
-        rating: {
-            type: String,
-            default: "N/A",
-        },
-    },
-    {timestamps: true}
+const CampsiteSchema = new mongoose.Schema(
+	{
+		name: {
+			type: String,
+			required: true,
+			unique: true,
+		},
+		location: {
+			type: String,
+			required: true,
+			unique: true,
+		},
+		category: {
+			type: String,
+			required: true,
+		},
+		security: {
+			type: Boolean,
+			default: false,
+		},
+		mainImg: {
+			type: String,
+			default: "",
+		},
+		desc: {
+			type: String,
+			default: "",
+		},
+		images: {
+			type: Array.of(String),
+			default: [],
+		},
+		amenities: {
+			type: [
+				{
+					type: String,
+				},
+			],
+			default: [],
+		},
+		reviews: [
+			{
+				user: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "User",
+				},
+				content: String,
+				rate: Number,
+			},
+		],
+		rating: {
+			type: Number,
+			default: 0,
+		},
+	},
+	{
+		timestamps: true,
+	}
 );
-export default mongoose.model("Campsite", campsiteSchema);
+export default mongoose.model("Campsite", CampsiteSchema);

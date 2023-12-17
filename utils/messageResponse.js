@@ -1,3 +1,3 @@
 export const messageResponse = (msgString) => {
-  return { message: msgString };
+	return { message: msgString };
 };
