@@ -4,3 +4,4 @@ node_modules
 
 public/images/tmp
 public/images/campsites
+public/images/users/*

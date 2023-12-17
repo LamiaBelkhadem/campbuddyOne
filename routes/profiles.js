@@ -1,5 +1,5 @@
 import express from "express";
-import path from "node:path";
+import fs from "fs"
 import { profile } from "../controllers/profile.js";
 import { isAdmin } from "../middlewares/isAdmin.js";
 import multer from "multer";
@@ -8,6 +8,9 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
+		if (!fs.existsSync(`public/images/users/${req.user.id}`)) {
+			fs.mkdirSync(`public/images/users/${req.user.id}`, { recursive: true });
+		}
 		cb(null, `public/images/users/${req.user.id}`);
 	},
 	filename: (req, file, cb) => {

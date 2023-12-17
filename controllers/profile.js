@@ -1,7 +1,7 @@
 import Profile from "../models/profile.js";
 import User from "../models/user.js";
-import { messageResponse } from "../utils/messageResponse.js";
 import { errorMessage } from "../utils/index.js";
+import { messageResponse } from "../utils/messageResponse.js";
 
 const upsertProfile = async (req, res) => {
 	const user = await User.findById(req.user.id);
