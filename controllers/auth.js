@@ -1,13 +1,13 @@
 import bcrypt from "bcryptjs";
-import crypto from "node:crypto";
 import jwt from "jsonwebtoken";
+import crypto from "node:crypto";
 import nodemailer from "nodemailer";
 import User from "../models/user.js";
 import { createError } from "../utils/error.js";
 import { errorMessage } from "../utils/index.js";
 import { messageResponse } from "../utils/messageResponse.js";
 
-const register = async (req, res, next) => {
+const register = async (req, res) => {
 	const { email, username, password, passwordCon } = req.body;
 
 	if (!username || !email || !password)
@@ -108,9 +108,9 @@ const login = async (req, res, next) => {
 			{ expiresIn: "1d" }
 		);
 
-		const { password, ...others } = user;
+		delete user.password;
 
-		return res.json({ user: others, accessToken });
+		return res.json({ user, accessToken });
 	} catch (err) {
 		console.log({ err });
 		next(err);

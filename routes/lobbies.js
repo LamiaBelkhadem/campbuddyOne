@@ -7,5 +7,7 @@ router.put("/:id", lobby.update);
 router.delete("/:id", lobby.remove);
 router.get("/:id", lobby.get);
 router.get("/", lobby.getAll);
+router.post("/:id/join", lobby.joinLobby);
+router.delete("/:id/leave", lobby.leaveLobby);
 
 export default router;

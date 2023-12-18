@@ -54,7 +54,7 @@ const handleCampsiteImgsUpload = (res, { name, images, mainImg }) => {
 	};
 };
 
-const create = async (req, res, next) => {
+const create = async (req, res) => {
 	const {
 		name,
 		location,

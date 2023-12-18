@@ -1,15 +1,17 @@
 import express from "express";
-import fs from "fs"
+import fs from "fs";
+import multer from "multer";
 import { profile } from "../controllers/profile.js";
 import { isAdmin } from "../middlewares/isAdmin.js";
-import multer from "multer";
 
 const router = express.Router();
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		if (!fs.existsSync(`public/images/users/${req.user.id}`)) {
-			fs.mkdirSync(`public/images/users/${req.user.id}`, { recursive: true });
+			fs.mkdirSync(`public/images/users/${req.user.id}`, {
+				recursive: true,
+			});
 		}
 		cb(null, `public/images/users/${req.user.id}`);
 	},
@@ -21,9 +23,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post("/", upload.single("file"), profile.upsertProfile);
+router.get("/view/:id", profile.getOne);
 router.get("/my-profile", profile.myProfile);
 router.delete("/:id/:userId", isAdmin, profile.remove);
-router.get("/:id", profile.getOne);
 router.get("/", isAdmin, profile.getAll);
 
 export default router;

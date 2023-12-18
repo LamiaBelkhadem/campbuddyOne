@@ -17,12 +17,7 @@ const app = express();
 dotenv.config();
 
 const connect = async () => {
-	try {
-		await mongoose.connect(process.env.DB_URL);
-		console.log("Connected to Database.");
-	} catch (error) {
-		throw error;
-	}
+	await mongoose.connect(process.env.DB_URL);
 };
 
 mongoose.connection.on("disconnected", () => {

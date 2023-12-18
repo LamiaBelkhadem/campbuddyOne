@@ -7,7 +7,7 @@ import multer from "multer";
 const router = express.Router();
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		cb(null, `public/images/tmp/campsites`);
+		cb(null, "public/images/tmp/campsites");
 	},
 	filename: (req, file, cb) => {
 		cb(null, `${Date.now()}-${uuidv4()}}.png`);
