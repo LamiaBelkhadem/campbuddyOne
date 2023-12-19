@@ -158,6 +158,46 @@ export const leaveLobby = async (req, res, next) => {
 	}
 };
 
+export const getLobbiesByOwner = async (req, res, next) => {
+	const ownerId = req.params.ownerId;
+	try {
+		const lobbies = await Lobby.find({ owner: ownerId })
+			.populate("campsite")
+			.populate({
+				path: "owner",
+				populate: {
+					path: "profile",
+				},
+			})
+			.populate({ path: "joined", populate: { path: "profile" } })
+			.lean();
+		return res.status(200).json({ lobbies });
+	} catch (err) {
+		next(err);
+	}
+};
+
+export const getLobbiesByParticipant = async (req, res, next) => {
+	const participantId = req.params.participantId;
+	try {
+		const lobbies = await Lobby.find({ joined: participantId })
+			.populate("campsite")
+			.populate({
+				path: "owner",
+				populate: {
+					path: "profile",
+				},
+			})
+			.populate({ path: "joined", populate: { path: "profile" } })
+			.lean();
+		return res.status(200).json({ lobbies });
+	} catch (err) {
+		next(err);
+	}
+};
+
+
+
 export const lobby = {
 	create,
 	update,
@@ -166,4 +206,7 @@ export const lobby = {
 	getAll,
 	joinLobby,
 	leaveLobby,
+	getLobbiesByParticipant,
+	getLobbiesByOwner
+
 };

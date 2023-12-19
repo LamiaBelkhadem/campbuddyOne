@@ -33,12 +33,8 @@ const CampsiteSchema = new mongoose.Schema(
 			default: [],
 		},
 		amenities: {
-			type: [
-				{
-					type: String,
-				},
-			],
-			default: [],
+			type: String,
+			required: true,
 		},
 		reviews: [
 			{

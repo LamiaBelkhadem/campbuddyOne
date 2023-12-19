@@ -145,11 +145,12 @@ const getOne = async (req, res) => {
 	}
 };
 const addReview = async (req, res, next) => {
-	const { content } = req.body;
+	const { content, rate } = req.body;
 	const { id } = req.params;
 	const userId = req.user.id;
 
 	try {
+
 		const updatedCampsite = await Campsite.findByIdAndUpdate(
 			id,
 			{
@@ -157,6 +158,7 @@ const addReview = async (req, res, next) => {
 					reviews: {
 						user: userId,
 						content,
+						rate,
 					},
 				},
 			},
