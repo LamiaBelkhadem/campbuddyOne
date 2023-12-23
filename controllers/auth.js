@@ -58,8 +58,7 @@ const register = async (req, res) => {
 			to: newUser.email,
 			subject: "Email Verification",
 			html: `<p>Please verify your email by clicking on the link: 
-             <a href="${
-					process.env.APP_URL ?? "http://localhost:5173"
+             <a href="${process.env.APP_URL ?? "http://localhost:5173"
 				}/verify/${emailVerificationToken}">Verify Email</a></p>`,
 		};
 
@@ -112,7 +111,6 @@ const login = async (req, res, next) => {
 
 		return res.json({ user, accessToken });
 	} catch (err) {
-		console.log({ err });
 		next(err);
 	}
 };
@@ -139,7 +137,7 @@ const verifyEmail = async (req, res, next) => {
 				.json(errorMessage("Email already verified."));
 		}
 
-		const updatedUser = await User.findByIdAndUpdate(
+		await User.findByIdAndUpdate(
 			user._id,
 			{
 				emailVerified: true,
@@ -147,8 +145,6 @@ const verifyEmail = async (req, res, next) => {
 			},
 			{ new: true }
 		);
-
-		console.log("Heeere", updatedUser);
 
 		return res.json({ message: "Email successfully verified" }); // Send a success response
 	} catch (err) {

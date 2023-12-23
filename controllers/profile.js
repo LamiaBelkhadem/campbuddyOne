@@ -78,11 +78,11 @@ const getOne = async (req, res) => {
 	}
 };
 const remove = async (req, res, next) => {
-	const { userId } = req.params;
+	const { id } = req.params;
 	try {
-		await Profile.findByIdAndDelete(userId);
+		await Profile.findByIdAndDelete(id);
 		try {
-			return await User.findByIdAndUpdate(userId, {
+			return await User.findByIdAndUpdate(id, {
 				$unset: { profile: "" },
 			});
 		} catch (err) {
@@ -115,7 +115,50 @@ const myProfile = async (req, res) => {
 	return res.json({ profile: myProfileObj });
 };
 
+
+export const addReview = async (req, res) => {
+	const { id } = req.params;
+	const { rating, comment } = req.body;
+
+	const profile = await Profile.findById(id);
+
+	if (!profile) return res.status(404).json(errorMessage("profile not found"));
+
+	if (profile.reviews.find(review => review.user == req.user.id))
+		return res.status(400).json(errorMessage("you already reviewed this profile"))
+
+	const review = {
+		user: req.user.id,
+		rating,
+		comment,
+	};
+
+	profile.reviews.push(review);
+
+	await profile.save();
+
+	return res.json({ profile });
+}
+
+export const deleteReview = async (req, res) => {
+	const { id } = req.params;
+
+	console.log("Heeeeeeeeeeeeeeeeeeeeeere")
+
+	const profile = await Profile.findOne({ "reviews.user": req.user.id, _id: id });
+
+	if (!profile) return res.status(404).json(errorMessage("profile not found"));
+
+	profile.reviews = profile.reviews.filter((review) => review.user != req.user.id);
+
+	await profile.save();
+
+	return res.json({ profile });
+}
+
 export const profile = {
+	deleteReview,
+	addReview,
 	upsertProfile,
 	getOne,
 	remove,
