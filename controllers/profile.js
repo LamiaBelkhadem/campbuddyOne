@@ -71,7 +71,7 @@ const upsertProfile = async (req, res) => {
 const getOne = async (req, res) => {
 	const { id } = req.params;
 	try {
-		const profile = await Profile.findByIdAndUpdate(id).lean();
+		const profile = await Profile.findById(id).populate("reviews.user").lean();
 		return res.status(200).json({ profile });
 	} catch (err) {
 		return res.status(500).json(err);
@@ -142,8 +142,6 @@ export const addReview = async (req, res) => {
 
 export const deleteReview = async (req, res) => {
 	const { id } = req.params;
-
-	console.log("Heeeeeeeeeeeeeeeeeeeeeere")
 
 	const profile = await Profile.findOne({ "reviews.user": req.user.id, _id: id });
 

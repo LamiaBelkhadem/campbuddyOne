@@ -11,6 +11,7 @@ import campsitesRoute from "./routes/campsites.js";
 import lobbiesRoute from "./routes/lobbies.js";
 import profileRoute from "./routes/profiles.js";
 import usersRoute from "./routes/users.js";
+import recommendRouter from "./routes/recommand.js";
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", isAuthenticated, usersRoute);
 app.use("/api/lobbies", isAuthenticated, lobbiesRoute);
 app.use("/api/campsites", isAuthenticated, campsitesRoute);
+app.use("/api/recommend", isAuthenticated, recommendRouter);
 app.use("/api/profiles", isAuthenticated, profileRoute);
 
 app.use((err, _, res, __) => {
