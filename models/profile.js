@@ -28,18 +28,13 @@ const ProfileSchema = new mongoose.Schema(
 			type: String,
 			default: "",
 		},
-		interests: [
-			{
-				type: String,
-			},
-		],
+		interests: {
+			type: String,
+			default: "",
+		},
 		equipment: {
-			type: [
-				{
-					type: String,
-				},
-			],
-			default: [],
+			type: String,
+			default: "",
 		},
 		favorites: [
 			{
