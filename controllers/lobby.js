@@ -177,6 +177,7 @@ export const getLobbiesByOwner = async (req, res, next) => {
 	}
 };
 
+
 export const getLobbiesByParticipant = async (req, res, next) => {
 	const participantId = req.params.participantId;
 	try {

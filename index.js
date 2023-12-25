@@ -14,7 +14,6 @@ import usersRoute from "./routes/users.js";
 import recommendRouter from "./routes/recommand.js";
 
 const app = express();
-
 dotenv.config();
 
 const connect = async () => {
