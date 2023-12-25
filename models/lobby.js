@@ -27,10 +27,6 @@ const LobbySchema = new mongoose.Schema(
 			type: Number,
 			required: false,
 		},
-		participants: {
-			type: Array,
-			default: [],
-		},
 		open: {
 			type: Boolean,
 			default: true,
