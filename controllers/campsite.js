@@ -234,6 +234,7 @@ const addToFavorite = async (req, res) => {
 		{ new: true }
 	);
 	return res.status(200).json({ profile: updatedProfile });
+	console.log("added to favourites");
 };
 
 const deleteFromFavorite = async (req, res) => {

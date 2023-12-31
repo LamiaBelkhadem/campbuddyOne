@@ -14,6 +14,7 @@ const upsertProfile = async (req, res) => {
 		area,
 		experience,
 		equipment,
+		interests,
 		favorites,
 		facebook,
 		instagram,
@@ -23,6 +24,8 @@ const upsertProfile = async (req, res) => {
 		bio,
 	} = req.body;
 
+	console.log("req.body",req.body);
+
 	const profile = {
 		fname,
 		user: req.user.id,
@@ -31,6 +34,7 @@ const upsertProfile = async (req, res) => {
 		area,
 		experience,
 		equipment,
+		interests,
 		favorites,
 		facebook,
 		instagram,
