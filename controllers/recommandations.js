@@ -2,6 +2,7 @@ import Lobby from "../models/lobby.js";
 import Campsite from "../models/campsite.js";
 import User from "../models/user.js";
 import { messageResponse } from "../utils/messageResponse.js";
+import Profile from "../models/profile.js";
 
 const recommandLobbiesWithPoints = async (user) => {
     const userProfile = await Profile.findOne({ user: user.id }).exec();
@@ -18,23 +19,28 @@ const recommandLobbiesWithPoints = async (user) => {
     // Find lobbies that match user's preferences
     const recommendedLobbies = await Lobby.find({
         open: true, // Lobbies that are open
-    }).populate("owner").populate("owner.profile").exec();
+    })  .populate("owner")
+    .populate({
+        path: 'owner',
+        populate: { path: 'profile' }
+    })    .populate("campsite") // Populate campsite information
+    .exec();
 
-    console.log(recommendedLobbies)
+    console.log("recommended Lobbies",recommendedLobbies)
 
     // Calculate points for each lobby based on matching attributes
     const lobbiesWithPoints = recommendedLobbies.map((lobby) => {
         let points = 0;
 
-        if (lobby.gender === userGender || lobby.gender === "") {
+        if (lobby.gender === userGender || lobby.gender === "All") {
             points++;
         }
 
-        if (lobby.age === userAge || lobby.age === "") {
+        if (lobby.age === userAge || lobby.age === "All") {
             points++;
         }
 
-        if (lobby.experience === userExperience || lobby.experience === "") {
+        if (lobby.experience === userExperience || lobby.experience === "All") {
             points++;
         }
 
@@ -46,12 +52,12 @@ const recommandLobbiesWithPoints = async (user) => {
 
     // Exclude lobbies that the user has already joined
     const filteredLobbies = lobbiesWithPoints.filter(
-        (entry) => !entry.lobby.joined.includes(req.user.id)
+        (entry) => !entry.lobby.joined.includes(user.id)
     );
 
     // Sort lobbies based on total points
     const sortedLobbies = filteredLobbies.sort((a, b) => b.points - a.points);
-
+        console.log("sorted:",sortedLobbies);
     return { lobbies: sortedLobbies }
 }
 
@@ -157,8 +163,7 @@ const search = async (req, res) => {
             { results: recommendedUsers, model: 'User' },
         ].map(({ results, model }) => {
             const points = results.reduce((totalPoints, result) => {
-                // You can add more criteria and adjust points accordingly
-                return totalPoints + 1; // Example: 1 point for each match
+                return totalPoints + 1; 
             }, 0);
 
             return {
