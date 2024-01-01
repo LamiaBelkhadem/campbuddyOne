@@ -56,6 +56,10 @@ const ProfileSchema = new mongoose.Schema(
 			type: String,
 			default: "",
 		},
+		rate: {
+			type: Number,
+			default: 5,
+		},
 		bio: {
 			type: String,
 			default: "",

@@ -37,7 +37,6 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/auth", authRoute);
-
 app.use("/api/users", isAuthenticated, usersRoute);
 app.use("/api/lobbies", isAuthenticated, lobbiesRoute);
 app.use("/api/campsites", isAuthenticated, campsitesRoute);
