@@ -144,6 +144,26 @@ const getOne = async (req, res) => {
 		return res.status(500).json(err);
 	}
 };
+
+const getMultiple = async (req, res) => {
+    const { ids } = req.body; // Assuming you're sending an array of IDs in the request body
+
+    try {
+        if (!Array.isArray(ids) || ids.length === 0) {
+            return res.status(400).json(errorMessage("No campsite IDs provided"));
+        }
+
+        const campsites = await Campsite.find({
+            '_id': { $in: ids }
+        });
+
+        return res.status(200).json({ campsites });
+    } catch (err) {
+        console.error("Error fetching multiple campsites:", err);
+        return res.status(500).json(errorMessage(err.message));
+    }
+};
+
 const addReview = async (req, res, next) => {
 	const { content, rate } = req.body;
 	const { id } = req.params;
@@ -259,6 +279,7 @@ export const campsite = {
 	update,
 	upload,
 	getOne,
+	getMultiple,
 	addReview,
 	remove,
 	getAll,

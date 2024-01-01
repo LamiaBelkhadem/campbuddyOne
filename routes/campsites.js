@@ -22,7 +22,7 @@ router.put("/:id", isAdmin, campsite.update);
 router.delete("/:id", isAdmin, campsite.remove);
 router.delete("/favourites/:id", campsite.deleteFromFavorite);
 router.put("/favourites/:id", campsite.addToFavorite);
-
+router.post('/campsites/multiple', campsite.getMultiple);
 router.get("/", campsite.getAll);
 router.get("/:id", campsite.getOne);
 router.get("/:id/reviews", campsite.getReviewsForCampsite);
