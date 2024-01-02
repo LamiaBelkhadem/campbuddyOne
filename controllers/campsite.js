@@ -10,10 +10,10 @@ const handleCampsiteImgsUpload = (res, { name, images, mainImg }) => {
 	// and move the images there (if any)
 	//  move the main image to public/images/campsites/${campsiteName}/main.jpg
 
+	console.log("HEEEEEEEEEEEEEEEEEEEEEEERE")
+	console.log(process.cwd())
 	// Create a directory under public/images/campsites/${campsiteName}/
 	const campsiteDirectory = path.join(
-		__dirname,
-		"..",
 		"public",
 		"images",
 		"campsites",
@@ -26,21 +26,27 @@ const handleCampsiteImgsUpload = (res, { name, images, mainImg }) => {
 
 	// Move the main image to public/images/campsites/${campsiteName}/main.jpg
 	const mainImagePath = path.join(campsiteDirectory, "main.jpg");
+	const oldPath = path.join("public", "images", mainImg);
 
 	try {
-		fs.renameSync(mainImg.path, mainImagePath);
+		fs.renameSync(oldPath, mainImagePath);
 	} catch (err) {
 		// Handle any errors during file moving
+		console.log(err)
 		throw new Error("Error moving main image");
 	}
 
 	const imagePaths = [];
+	let i = 0;
 	for (const img of images) {
-		const imgPath = path.join(campsiteDirectory, img.originalname);
+		const imgPath = path.join(campsiteDirectory, `${i}.png`);
+		i++;
+		const oldPath = path.join(process.cwd(), "public", "images", img);
+		console.log({ oldPath, imgPath })
 
 		try {
-			fs.renameSync(img.path, imgPath);
-			imagePaths.push(imgPath);
+			fs.renameSync(oldPath, imgPath);
+			imagePaths.push(`campsites/${name}/${i}.png`)
 		} catch (err) {
 			// Handle any errors during file moving
 			console.error("Error moving image:", err);
@@ -49,7 +55,7 @@ const handleCampsiteImgsUpload = (res, { name, images, mainImg }) => {
 	}
 
 	return {
-		imagePaths,
+		imagePaths: `campsites/${name}/mainImg.jpg`,
 		mainImagePath,
 	};
 };
@@ -65,6 +71,8 @@ const create = async (req, res) => {
 		amenities,
 		security,
 	} = req.body;
+
+	console.log(mainImg)
 
 	try {
 		const { imagePaths, mainImagePath } = handleCampsiteImgsUpload(res, {
