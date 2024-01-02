@@ -8,15 +8,13 @@ const ProfileSchema = new mongoose.Schema(
 		},
 		fname: {
 			type: String,
-			required: true,
+			
 		},
 		lname: {
 			type: String,
-			required: true,
 		},
 		age: {
 			type: Number,
-			required: true,
 		},
 		experience: {
 			type: String,
@@ -28,13 +26,14 @@ const ProfileSchema = new mongoose.Schema(
 			type: String,
 			default: "",
 		},
-		interests: [{
-			type: String,
-		}],
-		equipment: [{
+		interests:  {
 			type: String,
 			default: "",
-		}],
+		},
+		equipment: {
+			type: String,
+			default: "",
+		},
 		favorites: [
 			{
 				type: mongoose.Types.ObjectId,
@@ -56,6 +55,10 @@ const ProfileSchema = new mongoose.Schema(
 		desc: {
 			type: String,
 			default: "",
+		},
+		rate: {
+			type: Number,
+			default: 5,
 		},
 		bio: {
 			type: String,

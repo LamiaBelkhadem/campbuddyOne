@@ -31,9 +31,10 @@ const LobbySchema = new mongoose.Schema(
 			type: Boolean,
 			default: true,
 		},
-		age: {
+		
+		desc: {
 			type: String,
-			default: "",
+			default: "No description",
 		},
 		experience: {
 			type: String,
