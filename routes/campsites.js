@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path"
 import { v4 as uuidv4 } from "uuid";
 import { campsite } from "../controllers/campsite.js";
 import { isAdmin } from "../middlewares/isAdmin.js";
@@ -7,7 +8,7 @@ import multer from "multer";
 const router = express.Router();
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		cb(null, "public/images/tmp/campsites");
+		cb(null, path.join("public", "images", "tmp", "campsites"));
 	},
 	filename: (req, file, cb) => {
 		cb(null, `${Date.now()}-${uuidv4()}.png`);

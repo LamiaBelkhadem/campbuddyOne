@@ -55,8 +55,8 @@ const handleCampsiteImgsUpload = (res, { name, images, mainImg }) => {
 	}
 
 	return {
-		imagePaths: `campsites/${name}/mainImg.jpg`,
-		mainImagePath,
+		imagePaths,
+		mainImagePath: `campsites/${name}/main.jpg`,
 	};
 };
 
@@ -72,27 +72,34 @@ const create = async (req, res) => {
 		security,
 	} = req.body;
 
-	console.log(mainImg)
-
 	try {
-		const { imagePaths, mainImagePath } = handleCampsiteImgsUpload(res, {
-			images,
-			mainImg,
-			name,
-		});
 
 		const newCampsite = await Campsite.create({
 			security,
 			name,
 			location,
 			category,
-			mainImg: mainImagePath,
 			desc,
-			images: imagePaths,
 			amenities,
 		});
 
-		return res.status(200).json({ campsite: newCampsite });
+		const { imagePaths, mainImagePath } = await handleCampsiteImgsUpload(res, {
+			images,
+			mainImg,
+			name,
+		});
+		console.log(imagePaths, mainImagePath)
+
+		const updatedCampsite = await Campsite.findByIdAndUpdate(newCampsite._id, {
+			$set: {
+				mainImg: mainImagePath,
+				images: imagePaths,
+			}
+		}, {
+			new: true
+		})
+
+		return res.status(200).json({ campsite: updatedCampsite });
 	} catch (e) {
 		return res.status(500).json(errorMessage(e.message));
 	}
@@ -154,22 +161,22 @@ const getOne = async (req, res) => {
 };
 
 const getMultiple = async (req, res) => {
-    const { ids } = req.body; // Assuming you're sending an array of IDs in the request body
+	const { ids } = req.body; // Assuming you're sending an array of IDs in the request body
 
-    try {
-        if (!Array.isArray(ids) || ids.length === 0) {
-            return res.status(400).json(errorMessage("No campsite IDs provided"));
-        }
+	try {
+		if (!Array.isArray(ids) || ids.length === 0) {
+			return res.status(400).json(errorMessage("No campsite IDs provided"));
+		}
 
-        const campsites = await Campsite.find({
-            '_id': { $in: ids }
-        });
+		const campsites = await Campsite.find({
+			'_id': { $in: ids }
+		});
 
-        return res.status(200).json({ campsites });
-    } catch (err) {
-        console.error("Error fetching multiple campsites:", err);
-        return res.status(500).json(errorMessage(err.message));
-    }
+		return res.status(200).json({ campsites });
+	} catch (err) {
+		console.error("Error fetching multiple campsites:", err);
+		return res.status(500).json(errorMessage(err.message));
+	}
 };
 
 const addReview = async (req, res, next) => {
