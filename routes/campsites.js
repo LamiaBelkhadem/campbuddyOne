@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
 		cb(null, "public/images/tmp/campsites");
 	},
 	filename: (req, file, cb) => {
-		cb(null, `${Date.now()}-${uuidv4()}}.png`);
+		cb(null, `${Date.now()}-${uuidv4()}.png`);
 	},
 });
 
